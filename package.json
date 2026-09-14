@@ -1,0 +1,12 @@
+{
+    "name": "regent",
+    "private": true,
+    "workspaces": ["server", "client"],
+    "scripts": {
+        "db:up": "docker compose up -d",
+        "db:down": "docker compose down",
+        "db:reset": "docker compose down -v && docker compose up -d",
+        "dev:server": "npm run dev -w server",
+        "dev:client": "npm run dev -w client"
+    }
+}
