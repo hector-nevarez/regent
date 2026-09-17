@@ -7,10 +7,10 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "migrate:make": "knex migrate:make",
-    "migrate:latest": "knex migrate:latest",
-    "migrate:rollback": "knex migrate:rollback",
-    "seed:run": "knex seed:run"
+    "migrate:make": "tsx ../node_modules/knex/bin/cli.js migrate:make",
+    "migrate:latest": "tsx ../node_modules/knex/bin/cli.js migrate:latest",
+    "migrate:rollback": "tsx ../node_modules/knex/bin/cli.js migrate:rollback",
+    "seed:run": "tsx ../node_modules/knex/bin/cli.js seed:run"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +25,6 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.5.1",
-    "ts-node": "^10.9.2",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }
