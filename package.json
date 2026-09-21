@@ -3,9 +3,10 @@
     "private": true,
     "workspaces": ["server", "client"],
     "scripts": {
-        "db:up": "docker compose up -d",
+        "db:up": "docker compose up -d --wait",
         "db:down": "docker compose down",
-        "db:reset": "docker compose down -v && docker compose up -d",
+        "db:reset": "docker compose down -v && docker compose up -d --wait",
+        "db:fresh": "npm run db:reset && npm run migrate:latest -w server && npm run seed:run -w server",
         "dev:server": "npm run dev -w server",
         "dev:client": "npm run dev -w client"
     }
