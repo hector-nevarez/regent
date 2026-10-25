@@ -99,13 +99,14 @@ export async function revokeToken(
     id: string,
     reason: string,
     replacedById?: string
-): Promise<void> {
-    await trx.raw(
+): Promise<number> {
+    const result = await trx.raw(
         `update refresh_tokens
         set revoked_at = now(), revoked_reason = ?, replaced_by_id = ?
         where id = ? and revoked_at is null`,
         [reason, replacedById ?? null, id]
     );
+    return result.rowCount ?? 0;
 };
 
 export async function revokeFamily(

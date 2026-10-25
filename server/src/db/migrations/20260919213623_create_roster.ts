@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     await knex.raw(`
         create table talent(
             id                   uuid primary key default gen_random_uuid(),
-            userid               uuid unique references users(id) on delete set null,
+            user_id              uuid unique references users(id) on delete set null,
             slug                 text not null unique,
             display_name         text not null,
             tagline              text,

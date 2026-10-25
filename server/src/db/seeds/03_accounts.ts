@@ -16,7 +16,7 @@ export async function seed(knex: Knex): Promise<void> {
 
     const users = await knex('users')
         .insert([
-            { email: 'owner@regent.test',  password_hash: hash, display_name: 'Dana Reyes',  role: 'admin' },
+            { email: 'owner@regent.test',  password_hash: hash, display_name: 'John Charly',  role: 'admin' },
             { email: 'marcus@regent.test', password_hash: hash, display_name: 'Marcus Hale', role: 'talent' },
             { email: 'client@regent.test', password_hash: hash, display_name: 'Test Client', role: 'customer' },
         ])
@@ -24,7 +24,7 @@ export async function seed(knex: Knex): Promise<void> {
 
     const byEmail = Object.fromEntries(users.map((u) => [u.email, u.id]));
 
-    await knex('talent').where({ slug: 'dana-reyes' })
+    await knex('talent').where({ slug: 'john-charly' })
         .update({ user_id: byEmail['owner@regent.test'] });
     await knex('talent').where({ slug: 'marcus-hale' })
         .update({ user_id: byEmail['marcus@regent.test'] });

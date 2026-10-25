@@ -2,7 +2,7 @@ import { hash, verify } from '@node-rs/argon2';
 
 // A real argon2 hash of a throwaway value. Used to burn equivalent CPU time
 // when the email doesn't exist, so login timing doesn't reveal account existence.
-const DUMMY_HASH = '1$m8X20uoQq7Jwc3Bz0u4g5w$26qyAMug0HI1fMHlbJmNDfsTYQE6wAEChyFXROQAEvo';
+const DUMMY_HASH = '$argon2id$v=19$m=19456,t=2,p=1$RChxNu1zweTn2IgcmlzDUQ$2ijR2o2UNgolCKCEFXGKs1SVFoClks5wRf9bgYVnnEg';
 
 export const hashPassword = (plain: string) => hash(plain);
 

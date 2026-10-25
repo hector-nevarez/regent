@@ -93,7 +93,7 @@ export async function refresh(rawToken: string, ctx: Context): Promise<Session> 
     if (!user || !user.is_active) throw unauthorized('Invalid session');
 
     // Rotate: new token in, old token out, atomically.
-    return db.transaction(async (trx) => {
+    const session = await db.transaction(async (trx) => {
         // TODO: Why don't we use 'issueSeesion' instead of manually generate the hash, insert the token...?
         const { raw, hash } = generateRefreshToken();
 
@@ -106,7 +106,11 @@ export async function refresh(rawToken: string, ctx: Context): Promise<Session> 
             ip: ctx.ip
         });
 
-        await repo.revokeToken(trx, presented.id, 'rotated', created.id);
+        const claimed = await repo.revokeToken(trx, presented.id, 'rotated', created.id);
+        if ( claimed === 0 ){
+            await repo.revokeFamily(trx, presented.family_id, 'reuse_detected');
+            return null;
+        }
 
         return {
             accessToken: signAccessToken({ sub: user.id, role: user.role}),
@@ -114,6 +118,9 @@ export async function refresh(rawToken: string, ctx: Context): Promise<Session> 
             user: publicUser(user),
         };
     });
+
+    if (session === null) throw unauthorized('Session revoked');
+    return session;
 }
 
 export async function logout(rawToken: string | undefined): Promise<void> {
